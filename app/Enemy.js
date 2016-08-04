@@ -6,6 +6,7 @@ var maxShipAngle        = 70 * (Math.PI / 360);
 var shootAccuracy       = 30;
 var shootDistance		= 300;
 var maxShootDistance    = 400;
+var destroyedEnemies 	= 0;
 
 var BOSS1  = 1;
 var BOSS2  = 2;
@@ -1021,5 +1022,6 @@ Enemy.prototype.collide = function(type, index, otherIndex) {
 
     if(enemyHP[this.index] <= 0) {
         this.isAlive = false;
+		destroyedEnemies++;
     }
 }

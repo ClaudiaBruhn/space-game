@@ -379,7 +379,7 @@ function handlePlayerPopupCollision() {
 
     for (var i = 0; i < playerHitBoxes.length; i++) {
         for (var j = 0; j < itemHitBoxes.length; j++) {
-            if (collision.intersectSphereBox(playerHitBoxes[i],
+            if (collision.intersectShipHitBoxBox(playerHitBoxes[i],
                 itemHitBoxes[j])) {
                 collected(j);
             }

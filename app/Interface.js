@@ -776,28 +776,28 @@ var amountUpgrade2 = 0;
 var passiveHPID;
 
 costUpgrade = [
-	1000,	// + 10 maxHP
-	40000,	// passive HP regen
-	10000,  // + 10 shield
-	5000,	// + 1 maxSpeed
-	1000,	// + 2 MaxRocketAmmo
-	2000,	// + 1 rocketDamage
-	1000,	// + 20 MaxMGAmmo
-	10000,	// + 1 mgDamage
-	1000,	// + shockwave ammo
-	1000	// + shockwave damage
+	500,	// + 10 maxHP
+	1250,	// passive HP regen
+	500,  // + 10 shield
+	500,	// + 1 maxSpeed
+	250,	// + 2 MaxRocketAmmo
+	500,	// + 1 rocketDamage
+	250,	// + 20 MaxMGAmmo
+	500,	// + 1 mgDamage
+	250,	// + shockwave ammo
+	750		// + shockwave damagefach
 ];
 
 costUpgradeFactor = [
-	1.2,	// + 10 maxHP
-	1.2,	// passive HP regen
-	1.2, 	// + 10 shield
+	1.15,	// + 10 maxHP
+	1.15,	// passive HP regen
+	1.15, 	// + 10 shield
 	1.2,	// + 1 maxSpeed
-	1.2,	// + 2 MaxRocketAmmo
+	1.09,	// + 2 MaxRocketAmmo
 	1.2,	// + 1 rocketDamage
-	1.2,	// + 20 MaxMGAmmo
+	1.09,	// + 20 MaxMGAmmo
 	1.2,	// + 1 mgDamage
-	1.2,	// + shockwave ammo
+	1.09,	// + shockwave ammo
 	1.2 	// + shockwave damage
 ];
 
@@ -853,7 +853,7 @@ function buyUpgrade(i) {
 			rocketDamage++;
 			break;
 		case 6:
-			MaxMGAmmo += 20;
+			MaxMGAmmo += 50;
 			break;
 		case 7:
 			MGDamage += 1;
@@ -962,15 +962,15 @@ var reachedMilestone = [
 var milestonesHighscore = [
 	1000,
 	2000,
+	1500,
+	1000,
 	2000,
 	1000,
 	2000,
-	2000,
-	4000,
-	4000,
-	8000,
-	4000,
-	8000
+	3000,
+	6000,
+	3000,
+	6000
 ];
 
 function showDescription(number) {
@@ -981,15 +981,15 @@ function showDescription(number) {
 }
 
 function checkMilestones(){
-	changeMilestoneProgress(1, reachedMaxSpeed, 2000);
-	changeMilestoneProgress(2, reachedMaxSpeed, 4000);
+	changeMilestoneProgress(1, reachedMaxSpeed, 600);
+	changeMilestoneProgress(2, reachedMaxSpeed, 1000);
 	changeMilestoneProgress(3, collectedPowerups, 15);
-	changeMilestoneProgress(4, reachedMoney, 50000);
-	changeMilestoneProgress(5, reachedMoney, 100000);
+	changeMilestoneProgress(4, reachedMoney, 5000);
+	changeMilestoneProgress(5, reachedMoney, 15000);
 	changeMilestoneProgress(6, moneySpentInShop, 10000);
-	changeMilestoneProgress(7, moneySpentInShop, 100000);
-	//changeMilestoneProgress(8, destroyedEnemies, 20);
-	//changeMilestoneProgress(9, destroyedEnemies, 50);
+	changeMilestoneProgress(7, moneySpentInShop, 20000);
+	changeMilestoneProgress(8, destroyedEnemies, 20);
+	changeMilestoneProgress(9, destroyedEnemies, 50);
 	changeMilestoneProgress(10, destroyedAsteroids, 20);
 	changeMilestoneProgress(11, destroyedAsteroids, 50);
 }

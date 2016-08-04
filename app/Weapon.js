@@ -2,8 +2,8 @@
 var weaponsActive = false;
 
 //Available ammunition, maximal ammunition
-var rocketAmmo = 1000;
-var MaxRocketAmmo = 1000;
+var rocketAmmo = 2;
+var MaxRocketAmmo = 10;
 
 var MGAmmo = 600  ;
 var MaxMGAmmo = 600;
@@ -307,7 +307,7 @@ function shootLaser() {
         laser.rotateX(1.57);
 
         //rotate: HitBox would start behind spaceship otherwise
-        laser.translateY(-200);
+        laser.translateY(-100);
 
         var numberDummyDots = 100;
         for (var i = 0; i <= numberDummyDots; i++) {
