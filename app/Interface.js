@@ -917,6 +917,9 @@ var milestonesHighscore = [
 
 function showDescription(number) {
     $('#description'+number).toggle();
+
+    var objDiv = document.getElementById("milestones");
+	objDiv.scrollTop = objDiv.scrollHeight;
 }
 
 function checkMilestones(){
