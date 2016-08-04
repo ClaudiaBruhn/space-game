@@ -750,6 +750,7 @@ function menuHideAll() {
 	$('#highscore').hide();
 	$('#milestones').hide();
 	$('#options').hide();
+	$('#chat').hide();
 }
 
 /* Closes the menu */
@@ -890,7 +891,7 @@ function buyUpgrade(i) {
  
 var reachedMoney = 0;
 var moneySpentInShop = 0;
-var reachedMaxSpeed = 80;
+var reachedMaxSpeed = 0;
  
 function displayMilestoneNote(value) {
 	//document.getElementById('milestoneNote').innerHTML = value;
