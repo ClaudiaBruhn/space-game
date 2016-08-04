@@ -16,29 +16,32 @@ var ParticleHandler = function () {
         if (size == undefined) size = 1;
 
         var explosion = new ExplosionParticleRenderer(color, 2500, fileLoader.get("particle_grey"), lifetime, position, speed, size);
+
         currentExplosions.push(explosion);
+
     }
 
     function addExplosion(position, lifetime, color, speed, size) {
+
 
         if (speed == undefined) speed = 1;
         if (size == undefined) size = 1;
 
         // explosion 15 bewegungsschritte laufen lassen
 
-        var explosion = new ExplosionParticleRenderer(color, 10000, fileLoader.get("particle_grey"), lifetime + 2, position, speed, size);
+        var explosion = new ExplosionParticleRenderer(color, 5000, fileLoader.get("particle_grey"), lifetime + 1, position, speed, size);
+
         for (var i = 0; i < 15; i++) {
             explosion.update();
         }
         currentExplosions.push(explosion);
-
     }
+
 
     function addImplosion(position) {
 
         var implosion = new ImplosionParticleRenderer(0xffdd33, 10000, fileLoader.get("particle_grey"), position, 1);
         currentImplosions.push(implosion);
-
     }
 
     function addHalo(position, lifetime, color) {
@@ -47,6 +50,7 @@ var ParticleHandler = function () {
     }
 
     return {
+
         addExplosion: addExplosion,
 
         addImplosion: addImplosion,
@@ -81,7 +85,7 @@ var ParticleHandler = function () {
                 var successful = implosion.update();
                 if (!successful) {
                     // Explosion starten
-                    addExplosion(implosion.startVector, 1, implosion.color, 10, 10);
+                    addExplosion(implosion.startVector, 1, implosion.color, 2, 2);
                     addHalo(implosion.startVector, 2, implosion.color);
 
                     // Implosion löschen

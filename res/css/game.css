@@ -267,7 +267,7 @@ canvas {
     top: 50px;
     overflow-y: scroll;
 }
- #menuHighscore .row{
+ #menuHighscore .row {
 	font-size: 12px;
     margin: auto;
     padding: 0;
@@ -306,20 +306,20 @@ canvas {
 	display : inline;
 }
 
-.menuHighscoreBody{
+.menuHighscoreBody {
 	width : 100%;
 }
 
 
-.menuHighscoreBody .table-nr{
+.menuHighscoreBody .table-nr {
 	display : inline;
 }
 
-.menuHighscoreBody .player-nr{
+.menuHighscoreBody .player-nr {
 	display : inline;
 }
 
-.menuHighscoreBody .points-nr{
+.menuHighscoreBody .points-nr {
 	display : inline;
 }
 
@@ -453,33 +453,8 @@ canvas {
 	transform: scale(1.2);
 }
 
-/*
-#volumeBar {
-	height: 25px;
-	width: 200px;
-	border: 1px solid black;
-	position: relative;
-}
-
-#volumeSlider {
-	width: 1px;
-	height: 100%;
-	background-color: red;
-	top: 0px;
-	left: 0px;
-	position: absolute;
-	cursor: pointer;
-}
-*/
-
-/* To do: Fix design */
-#soundOptions {
-   // display:inline;
-}
-
 .soundOptionsTable {
     width:90%;
-    //margin-left:5%;
 }
 
 .soundOptionsTable input[type=range] {

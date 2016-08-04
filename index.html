@@ -28,9 +28,61 @@
 <body>
 
     <div id="loading-overlay">
-        <div id="loading-text">
-            <h1>Loading ...</h1>
+        <!--<div id="loading-text">-->
+            <!--<h1>Loading ...</h1>-->
+        <!--</div>-->
+
+        <h1 id="space-game-header">SpaceGame</h1>
+
+        <h1 id="loading-message">Loading ...</h1>
+
+        <button id="tutorialClose" class="btn btn-danger">Close</button>
+
+        <div class="row" id="tutorial-layout">
+            <div class="col-md-4">
+                <div id="controls-table-container">
+                    <span class="tutorial-header">Controls</span>
+                    <table id="controls-table">
+                        <tr>
+                            <td>WASD</td><td>Movement</td>
+                        </tr>
+                        <tr>
+                            <td>X</td><td>Stop Spacehip</td>
+                        </tr>
+                        <tr>
+                            <td>Q</td><td>Change Weapon</td>
+                        </tr>
+                        <tr>
+                            <td>C</td><td>Change Camera</td>
+                        </tr>
+                        <tr>
+                            <td>P</td><td>Pause Game</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div id="tutorial-text">
+                    <span class="tutorial-header">How To Play</span>
+                    <ol id="tutorial-text-list">
+                        <li>Enemy ships will spawn in waves.</li>
+                        <li>Defeat the enemies to acquire points and money.</li>
+                        <li>Destroy asteroids to find mighty power ups.</li>
+                        <li>Spend your money on upgrades for your ship in the item shop.</li>
+                        <li>Once all enemies have been defeated, you will enter the next level.</li>
+                        <li>Try to score as high as you can!</li>
+                    </ol>
+                </div>
+            </div>
         </div>
+
+
+
+
+
+
+
+
     </div>
 
     <div id="overlay-menu" class="main-menu-overlay">
@@ -50,6 +102,7 @@
             <button id="formSubmit" class="btn btn-danger btn-block" type="submit">
                 Start Game
             </button>
+            <button id="formTutorial" class="btn btn-danger btn-block" type="button">Tutorial</button>
         </form>
     </div>
 

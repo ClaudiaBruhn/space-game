@@ -35,6 +35,7 @@ function ImplosionParticleRenderer(particleColor, nParticles, particleTexture, s
         particle.y += Math.cos(angle) * Math.sin(lambda) * radius;
         particle.z += Math.sin(angle) * radius;
 
+
         particle.velocity = particle.clone().sub(startVector.clone());
         particle.velocity.x += Math.random();
         particle.velocity.y += Math.random();
@@ -57,6 +58,7 @@ function ImplosionParticleRenderer(particleColor, nParticles, particleTexture, s
             var pCount = this.particleCount;
 
             while (pCount--) {
+                
                 var particle = this.particles.vertices[pCount];
 
                 particle.x += particle.velocity.x * this.currentMovement * 4;
@@ -67,14 +69,15 @@ function ImplosionParticleRenderer(particleColor, nParticles, particleTexture, s
             }
 
             if (this.currentMovement > -1) {
-                this.currentMovement -= 0.1;
+                this.currentMovement -= 0.1;    
             } else if (this.currentMovement <= -1) {
                 this.running = false;
             }
 
             this.particles.verticesNeedUpdate = true;
 
-            return true; // weitermachen
+            // weitermachen
+            return true;
         } else {
             scene.remove(this.particleimploSystem);
             return false; //aufhören

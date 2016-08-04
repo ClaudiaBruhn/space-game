@@ -79,10 +79,56 @@ input#player {
     background: black;
     z-index: 1000;
     color: white;
+    text-align: center;
     text-shadow: 0 0 10px rgba(255, 0, 0, 0.95);
+    background-image: url('../textures/loading-background.png');
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 }
-
 #loading-text {
     text-align: center;
     padding: 25%;
+}
+
+#controls-table {
+    font-size: 1.5em;
+    /*margin: 0 auto;*/
+    text-align: left;
+}
+#controls-table td {
+    padding: 20px;
+}
+#controls-table-container {
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.95);
+    background-color: rgba(0, 0, 0, 0.5);
+    padding-left: 50px;
+    padding-right: 50px;
+}
+#tutorial-text {
+    font-size: 1.5em;
+    text-align: center;
+    line-height: 50px;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.95);
+    background-color: rgba(0, 0, 0, 0.5);
+    padding-left: 50px;
+    padding-right: 50px;
+}
+#tutorial-text-list li {
+    text-align: left;
+}
+#tutorial-layout {
+    padding: 50px;
+}
+span.tutorial-header {
+    text-align: center;
+    font-size: 36px;
+}
+#space-game-header {
+    font-size: 72px;
+}
+#tutorialClose {
+    display:none;
+    font-size: 24px;
 }

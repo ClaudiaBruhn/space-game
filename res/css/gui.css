@@ -299,9 +299,11 @@
 #milestoneDisplay {
 	position: fixed;
 	top: 100px;
-	right: -210px;
+	right: -400px;
 	width: 200px;
 	height: auto;
+	
+	padding: 10px;
 
 	color : yellow;
 	background-color: rgba(255, 255, 255, 0.4);
@@ -319,7 +321,23 @@
 	line-height: 26.4px;
 }
 
-#milestonePic {
+#powerUpPickUp {
+	position: fixed;
+	bottom: -50px;
+	left: 10px;
+	width: auto;
+	height: auto;
+	
+	padding: 10px;
+
+	color : yellow;
+	background-color: rgba(100, 100, 100, 0.1);
+	border-style: ridge;
+	border-color: yellow;
+	border-width: 1px;
+
+	text-align: center;
+	opacity: 1;
 }
 
 /**

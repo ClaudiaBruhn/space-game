@@ -105,7 +105,7 @@ function init() {
 
     bot = Bot();
     bot.initAI(1);
-
+    bot.createlevel();
     movement = Movement();
     movement.init();
 

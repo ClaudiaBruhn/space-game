@@ -13,6 +13,7 @@ var asteroidRadius = 4.2;
 var defaultAsteroidHP = 10;
 
 
+
 function Asteroid(level, astIndex) {
     //console.log("Asteroid init");
     // Mesh setzen
@@ -112,7 +113,7 @@ Asteroid.prototype.collide = function (other, type, index, otherIndex) {
             // TODO
             break;
         case "PLAYER": case "player": case "Player":
-            this.changeAsteroidDirection();
+             this.reflectPlayer(ship); 
             break;
         case "LASER": case "laser": case "Laser":
             asteroidHP[index] -= laserDamage;
@@ -127,6 +128,10 @@ Asteroid.prototype.collide = function (other, type, index, otherIndex) {
         case "MACHINEGUN": case "machinegun": case "MachineGun":
             asteroidHP[index] -= MGDamage;
             break;
+        
+        case "SHOCKWAVE": case "shockwave": case "ShockWave":
+            asteroidHP[index] -= shockWaveDamage;
+            break;
         default: console.log("Error: Collision with unknown");
     }
 
@@ -139,16 +144,6 @@ Asteroid.prototype.collide = function (other, type, index, otherIndex) {
     }
 }
 
-Asteroid.prototype.changeAsteroidDirection = function () {
-
-    var newRotVal = Math.random() * (2 + 1) - 1;
-
-    asteroidSpeedVecs[this.astIndex] = asteroidSpeedVecs[this.astIndex].multiplyScalar(-1);
-    asteroidSpeedVecs[this.astIndex] = asteroidSpeedVecs[this.astIndex].add(3);
-
-    asteroidRotVecs[this.astIndex] = asteroidRotVecs[this.astIndex].multiplyScalar(newRotVal);
-
-}
 
 Asteroid.prototype.destroy = function (collisionType) {
 
@@ -162,7 +157,8 @@ Asteroid.prototype.destroy = function (collisionType) {
         case "PLAYER": case "player": case "Player":
             changeScore(scoreValues["asteroidDestroyed"]);
             spawnPowerUp(asteroids[this.astIndex].position.x, asteroids[this.astIndex].position.y, asteroids[this.astIndex].position.z);
-			destroyedAsteroids++;
+			destroyedAsteroids += 1;
+
 			checkMilestones();
             break;
 
@@ -233,26 +229,43 @@ Asteroid.prototype.reflect = function (other) {
     this.direction = thisDir.clone();
     other.direction = otherDir.clone();
 
-    /*
-    var thisDir = asteroidSpeedVecs[this.astIndex];
-    var otherDir = asteroidSpeedVecs[other.astIndex];
+}
 
-    var axis = other.position.clone();
+Asteroid.prototype.reflectPlayer = function (player) {
+    var thisDir = asteroidSpeedVecs[this.astIndex].clone();
+    var playerDir = this.getMeshDirection(ship);
+    // Reflektiert Asteroiden this und other
+    var factor;
+
+    // "Normale" der Reflektion (zeigt von this nach other -> "Normale fuer this")
+    var axis = player.position.clone();
     axis.sub(this.position);
-
-    var negAxis = this.position.clone();
-    negAxis.sub(other.position);
-
     axis.normalize();
-    negAxis.normalize();
 
-    thisDir = thisDir.sub(axis.multiplyScalar(2 * thisDir.dot(axis)));
-    otherDir = otherDir.sub(negAxis.multiplyScalar(2 * otherDir.dot(negAxis)));
+    var negAxis = axis.clone().negate();
+
+    // Reflektion fuer Asteroid a
+    var axisA = axis.clone();
+    factor = 2 * axisA.dot(playerDir);
+    thisDir.negate();
+    thisDir.add(axis.multiplyScalar(factor));
+
+    // Reflektion fuer Asteroid b
+    var axisB = negAxis.clone();
+    factor = 2 * axisB.dot(playerDir);
+    playerDir.negate();
+    playerDir.add(negAxis.multiplyScalar(factor));
 
     asteroidSpeedVecs[this.astIndex] = thisDir;
-    asteroidSpeedVecs[other.astIndex] = otherDir;
-    */
+    this.position.add(asteroidSpeedVecs[this.astIndex].multiplyScalar(3)); 
+    ship.position.add(playerDir.multiplyScalar(3));
+   // asteroidSpeedVecs[other.astIndex] = playerDir;
+    this.direction = thisDir.clone();
+    player.direction = playerDir.clone();
+
 }
+
+
 
 Asteroid.prototype.getHitBox = function () {
     var mesh, geometry, material;

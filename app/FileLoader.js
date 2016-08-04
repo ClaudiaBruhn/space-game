@@ -13,7 +13,10 @@ var backgroundMusic;
 var powerUpSoundtrackAudio;
 var shipData = {};
 
-var FileLoader = function () {
+var FileLoader = function (full) {
+
+    if (full === undefined) full = true;
+
     console.log("FileLoader running ...");
 
     /************************* Get all files to load *************************/
@@ -40,6 +43,7 @@ var FileLoader = function () {
         "../res/textures/Crosshair14.png",
         "../res/textures/Crosshair15.png",
         "../res/textures/Crosshair16.png",
+		"../res/textures/Crosshair17.png",
         "../res/textures/eso_dark.jpg",
         "../res/textures/GeldsackFacePalmTex.jpg",
         "../res/textures/GeldsackTex.jpg",
@@ -72,17 +76,18 @@ var FileLoader = function () {
         "../res/textures/sky_sphere_map2.png",
         "../res/textures/Spartan_Laser_Combined_V1.jpg",
         "../res/textures/tex.jpg",
-        "../res/textures/TextureEnemyShipOne.jpg",
+        "../res/textures/TextureEnemyShipOne.png",
         "../res/textures/TextureHero.png",
         "../res/textures/VengeanceMaterial.png",
+        "../res/img/nebula_red.jpeg",
 
         /************************* Meshes *************************/
         "../res/meshes/AsteroidV2.json",
         "../res/meshes/AsteroidV2Part1.json",
         "../res/meshes/AsteroidV2Part2.json",
         "../res/meshes/AsteroidV2Part3.json",
-        //"../res/meshes/Boss_Mothership_TITAN.json",
-        //"../res/meshes/BossCruiserV1.json",
+        "../res/meshes/Boss_Mothership_TITAN.json",
+        "../res/meshes/BossCruiserV1.json",
         "../res/meshes/Coin.json",
         "../res/meshes/Coin3.json",
         "../res/meshes/EnemyShipOne.json",
@@ -103,8 +108,30 @@ var FileLoader = function () {
         "../res/meshes/PowerUpRocket4.json",
         "../res/meshes/PowerUpRocket8.json",
         "../res/meshes/PowerUpShield.json",
-        "../res/meshes/RocketV2.json"
+        "../res/meshes/RocketV2.json",
+        "../res/meshes/spacenebula_red_3D.json",
+        "../res/meshes/PowerUpRocketDamage.json",
+        "../res/meshes/PowerUp_Shockwave.json",
+        "../res/meshes/PowerUp_ShockwaveDamageUp.json"
     ];
+
+    if (!full) {
+        files = [
+            /************************* Texturen *************************/
+            "../res/textures/lensflare1.png",
+            "../res/textures/lensflare2.png",
+            "../res/textures/lensflare3.png",
+            "../res/textures/particle.png",
+            "../res/textures/particle_grey.png",
+            "../res/textures/Planet.png",
+            "../res/textures/sky_sphere_map.jpg",
+            "../res/textures/tex.jpg",
+            "../res/textures/TextureHero.png",
+
+            /************************* Meshes *************************/
+            "../res/meshes/HeroShipV6.json"
+        ];
+    }
 
     // Key-Value-Store für die geladenen Dateien (Key: Name => Value: Inhalt)
     var loadedFiles = {};
@@ -238,12 +265,6 @@ var FileLoader = function () {
     cachingAudioSource3.src = '../res/sounds/caching.wav';
     cachingAudio3.appendChild(cachingAudioSource3);
 	
-	//space bg audio
-    spaceAudio = document.createElement('audio');
-    var spaceAudioSource = document.createElement('source');
-    spaceAudioSource.src = '../res/sounds/space.mp3';
-    spaceAudio.appendChild(spaceAudioSource);
-	
 	//button hover audio
     buttonAudio1 = document.createElement('audio');
     var buttonAudioSource1 = document.createElement('source');
@@ -267,14 +288,12 @@ var FileLoader = function () {
     gameOverAudioSource.src = '../res/sounds/GameOver.wav';
     gameOverAudio.appendChild(gameOverAudioSource);
 
-
-    //Game Over audio
+    //Shockwave audio
     shockwaveAudio = document.createElement('audio');
     var shockwaveAudioSource = document.createElement('source');
     shockwaveAudioSource.src = '../res/sounds/shockwave.wav';
     shockwaveAudio.appendChild(shockwaveAudioSource);
 
-    
     // Background Music
     backgroundMusic = document.createElement('audio');
     var backgroundMusicSource = document.createElement('source');

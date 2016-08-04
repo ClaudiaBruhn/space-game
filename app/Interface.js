@@ -16,22 +16,30 @@ levelTimes = [
 //level design
 // wird vom Timer aufgerufen
 function levelDesign(level){
+	
+	/**
 	switch (level){
-		case 1:
-		
+		case 5:	
+		bot.createlevel(0,0,1,0);
 		// spawn stuff
 			break;
-		case 2:
-		
+		case 10:	
+		bot.createlevel(0,0,0,1);
 		//spawn stuff
 			break;
-		case 3:
-		
+		case 15:
+		bot.createlevel(0,0,1,1);
 		//spawn stuff
 			break;
+		case 20:
+		bot.createlevel(0,0,2,1);
+
 		default:
+		bot.createlevel(1, 0, 0, 0);
 			break;
 	}
+	
+	*/
 	setLevelTimer(levelTimes[level-1]);
 	displayLevel(level);
 }
@@ -885,6 +893,19 @@ function buyUpgrade(i) {
 	updateWeaponInterface();
 }
 
+function pickUpPowerUpNote(value){
+	document.getElementById('powerUpPickUpNote').innerHTML = value;
+	
+	var box = document.getElementById('powerUpPickUp');
+	
+	//$(box).animate({bottom: '-50px'}, 1);
+	$(box).animate({bottom: '60px'}, 500);
+	$(box).animate({bottom: '60px'}, 1000);
+	$(box).animate({bottom: '-50px'}, 500);
+	
+
+}
+
 /**
  * FUNCTIONS FOR MILESTONES
  */
@@ -906,7 +927,7 @@ function displayMilestoneNote(value) {
 	
 	$(displayRef).animate({opacity: '1', right: '10px'}, 1000);
 	setTimeout(function() {
-		$(displayRef).animate({opacity: '0', right: '-110px'}, 1000);
+		$(displayRef).animate({opacity: '0', right: '-400px'}, 1000);
 	}, 4000);
 }
 

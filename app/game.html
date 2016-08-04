@@ -35,7 +35,7 @@
 					<div id="milestoneBox" class="pauseButton" onmouseover="buttonHover()" onClick="showMilestones()"> Milestones </div>
 					<div id="optionsBox" class="pauseButton" onmouseover="buttonHover()" onClick="showOptions()"> Options </div>
                     <div id="chatBox" class="pauseButton" onmouseover="buttonHover()" onClick="showChat()"> Chat </div>
-					<div id="returnBox" class="pauseButton" onmouseover="buttonHover()" onClick="menuClose()"> Let's a go! </div>
+					<div id="returnBox" class="pauseButton" onmouseover="buttonHover()" onClick="menuClose()"> !Let's a go </div>
         	   </div>
 	        </div>
 		   
@@ -671,6 +671,7 @@
 								<img class="crossPic" id="crossPic13" onmouseover="buttonHover()" src="../res/textures/Crosshair14.png" onClick="switchCross(13)">
 								<img class="crossPic" id="crossPic14" onmouseover="buttonHover()" src="../res/textures/Crosshair15.png" onClick="switchCross(14)">
 								<img class="crossPic" id="crossPic15" onmouseover="buttonHover()" src="../res/textures/Crosshair16.png" onClick="switchCross(15)">
+								<img class="crossPic" id="crossPic16" onmouseover="buttonHover()" src="../res/textures/Crosshair17.png" onClick="switchCross(16)">
 							</div>
 						</div>
 					</div>
@@ -762,7 +763,10 @@
 
     <div id="milestoneDisplay">
         <div id="milestoneNote"></div>
-		<!--<img id="milestonePic" src="../res/textures/GUIachievement.png"></div>-->
+    </div>
+	
+	<div id="powerUpPickUp">
+        <div id="powerUpPickUpNote"></div>
     </div>
 
     <div id="block">
@@ -770,7 +774,7 @@
             <span style="font-size:40px">Pause</span>
             <br>
             <br>
-            <span style="font-size:20px">WASD: Speed - Left - Right | C: Change Camera | X: Stop Movment | P: Pause/Shop | Q: Change Weapon</span>
+            <span style="font-size:20px">WASD: Speed - Left - Right | Q: Change Weapon | C: Change Camera | X: Stop Movment | P: Pause/Shop</span>
             <br>
             <br>
             <span style="font-size:30px">Click to Start / Resume</span>
@@ -792,7 +796,7 @@
 	
 
    <!-- Libraries -->
-   
+
 	<script src="../res/js/lib/jquery-3.0.0.min.js"></script>
 	<script src="../res/js/lib/threejs/three.js"></script>
 	<script src="../res/js/lib/TargetCamera.js"></script>
@@ -807,6 +811,7 @@
 	<script src="../res/js/lib/threejs/GlitchPass.js"></script>
 
 	<!-- custom -->
+	<script src="ShockwaveParticleRenderer.js"></script>
 	<script src="Network.js"></script>
 	<script src="StarfieldParticleRenderer.js"></script>
 	<script src="ShockwaveParticleRenderer.js"></script>

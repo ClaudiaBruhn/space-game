@@ -1,11 +1,11 @@
-var minObstacleDistance = 100;
-var maxAsteroidSize     = 30;
-var guardingRadius      = 50;
+var minObstacleDistance = 60;
+var maxAsteroidSize     = 50;
 var minDistanceToPlayer = 200;
-var maxShipSize         = 20;
+var maxShipSize         = 27;
 var maxShipAngle        = 70 * (Math.PI / 360);
-var shootAccuracy       = 100;
-var shootDistance		= 100;
+var shootAccuracy       = 30;
+var shootDistance		= 300;
+var maxShootDistance    = 400;
 
 var BOSS1  = 1;
 var BOSS2  = 2;
@@ -22,48 +22,44 @@ function Enemy(location, speed, level, typ, index) {
     // TODO: unterschiedliche Enemies
 
     // Waffe setzen und Groesse aendern
-    // TODO: weaponguard
     switch(typ) {
         case "BOSS1":
-            geometryB = fileLoader.get("EnemyShipOne");
-            this.weapon = 1;
+            geometryB = fileLoader.get("BossCruiserV1");
+            textureB  = fileLoader.get("Boss_Textures_Combined_V1");
             this.scale.set(20,20,20);
-            //enemyHP[index] = 20;
-            this.HP = 20;
+            enemyHP[index] = 30;
+
             break;
         case "BOSS2":
-            geometryB = fileLoader.get("EnemyShipOne");
-            this.weapon = 1;
+            geometryB = fileLoader.get("Boss_Mothership_TITAN");
+            textureB  = fileLoader.get("Boss_Textures_Combined_V1");
             this.scale.set(25,25,25);
-            //enemyHP[index] = 20;
-            this.HP = 20;
+            enemyHP[index] = 50;
+
             break;
         case "SMALL1":
             geometryB = fileLoader.get("EnemyShipOne");
-            this.weapon = 1;
+            textureB = fileLoader.get("TextureEnemyShipOne");
             this.scale.set(20,20,20);
             //enemyHP[index] = 10;
             this.HP = 10;
             break;
         case "SMALL2":
-            geometryB = fileLoader.get("EnemyShipOne");
-            this.weapon = 1;
+            geometryB = fileLoader.get("MiniEnemyShip");
+            textureB = fileLoader.get("MiniShipTex");
             this.scale.set(20,20,20);
             //enemyHP[index] = 10;
             this.HP = 10;
             break;
         default:
             geometryB = fileLoader.get("EnemyShipOne");
-            this.weapon = 1;
             this.scale.set(20,20,20);
             //enemyHP[index] = 10;
             this.HP = 10;
     }
 
+    this.index = index;
     this.typ = typ;
-
-    geometryB = fileLoader.get("EnemyShipOne");
-    var textureB  = fileLoader.get("TextureEnemyShipOne");
 
 
     // Mesh setzen
@@ -81,6 +77,8 @@ function Enemy(location, speed, level, typ, index) {
     this.onPlayerAttack  = false;
     this.delta      = 0;
     this.respawn    = false;
+    this.sinceLastShot   = -3; // erste drei Sekunden nichts machen
+    this.radius     = maxShipSize;
 
     // Initialen Ausrichtungsvektor
     this.lookAt(ship.position);
@@ -97,7 +95,7 @@ function Enemy(location, speed, level, typ, index) {
     this.oldPlayerDir = MATH.clone(ship.position);
 
 
-    this.position.set(2,2,2);
+    //this.position.set(2,2,2);
 
     // HitBox
     // this.hitBox = this.getHitBox();
@@ -109,7 +107,7 @@ Enemy.prototype = new THREE.Mesh;
 
 
 // Bewegung des Schiffes
-Enemy.prototype.move = function(delta, asteroids, enemies, index) {
+Enemy.prototype.move = function(delta, index) {
     var distanceToShip, dir, optimalDir;
     var obstacles = [];
 
@@ -119,6 +117,10 @@ Enemy.prototype.move = function(delta, asteroids, enemies, index) {
     this.updatePlayerDirection();
 
     // 0. Schritt: Checke ob auf Bezierkurve oder nicht
+    if(this.position.distanceTo(ship.position) > 300) {
+        this.onPlayerAttack = false;
+    }
+
     if(this.onPlayerAttack) {
         // Achte darauf, dass sich der Spieler nicht um mehr als 90° zur
         // urspruenglichen Richtung gedreht hat
@@ -137,6 +139,8 @@ Enemy.prototype.move = function(delta, asteroids, enemies, index) {
         if(this.points.length == 0) {
             this.onPlayerAttack = false;
         }
+
+        this.shoot(this.position, delta);
 
     } else {
 
@@ -190,7 +194,7 @@ Enemy.prototype.move = function(delta, asteroids, enemies, index) {
         dir = this.avoidObstacle(optimalDir, obstacles, delta);
     } else {
         dir = optimalDir;
-        this.shoot(ship.position);
+        this.shoot(ship.position, delta);
     }
 
 
@@ -212,8 +216,6 @@ Enemy.prototype.move = function(delta, asteroids, enemies, index) {
     this.position.z += dir.z;
 
 
-    //console.log("Position enemy after: ("+this.position.x+","+this.position.y+","+this.position.z+")");
-    //console.log("Direction at init: ("+this.direction.x+","+this.direction.y+","+this.direction.z+")");
 
 
 
@@ -242,7 +244,7 @@ Enemy.prototype.move = function(delta, asteroids, enemies, index) {
 
 // TODO: anpassen an neuer Geschwindigkeit (15 statt 70)
 Enemy.prototype.moveCurve = function(renew, delta) {
-    var p1, p2;
+    var p0, p1, p2, test0, test1;
     var shipSize = 50;
 
 
@@ -267,51 +269,69 @@ Enemy.prototype.moveCurve = function(renew, delta) {
         U.normalize();
         V.normalize();
 
+        // Start fuer seichten Uebergang
+        p0 = MATH.clone(this.position);
+        var dir = MATH.clone(this.direction);
+        dir.multiplyScalar(this.speed * delta);
+        p0.sub(dir);
+
         // vor dem Spieler
-        if(MATH.dot(this.direction,this.direction) <= 0) {// !! TODO: Nachfragen player.direction
+        if(MATH.dot(this.direction,this.playerDirection) <= 0) {
             p1 = MATH.clone(ship.position);
-            p1.add(U.multiplyScalar(shipSize + Math.random() * shipSize));
-            p1.add(V.multiplyScalar(shipSize + Math.random() * shipSize));
+            p1.add(U.multiplyScalar(3*(shipSize + Math.random() * shipSize)));
+            p1.add(V.multiplyScalar(3*(shipSize + Math.random() * shipSize)));
             U.normalize();
             V.normalize();
             p2 = MATH.clone(ship.position);
-            p2.add(N.multiplyScalar(0.5));
-            p2.add(U.multiplyScalar(Math.random() * (shipSize + Math.random() * shipSize)));
-            p2.add(V.multiplyScalar(Math.random() * (shipSize + Math.random() * shipSize)));
+            p2.add(N.multiplyScalar(2));
+            p2.add(U.multiplyScalar(Math.random() * 3 * (shipSize + Math.random() * shipSize)));
+            p2.add(V.multiplyScalar(Math.random() * 3 * (shipSize + Math.random() * shipSize)));
             U.normalize();
             V.normalize();
-            N.multiplyScalar(2);
+            N.multiplyScalar(0.5);
         } else { // hinter dem Spieler
             p1 = MATH.clone(this.position);
             p1.add(N.multiplyScalar(2/3));
-            p1.add(U.multiplyScalar(shipSize + Math.random() * shipSize));
-            p1.add(V.multiplyScalar(shipSize + Math.random() * shipSize));
+            p1.add(U.multiplyScalar(3 * (shipSize + Math.random() * shipSize)));
+            p1.add(V.multiplyScalar(3 * (shipSize + Math.random() * shipSize)));
             U.normalize();
             V.normalize();
             N.multiplyScalar(3/2);
 
             p2 = MATH.clone(this.position);
-            p2.add(N.multiplyScalar(1/3));
-            p2.add(U.multiplyScalar(shipSize + Math.random() * shipSize));
-            p2.add(V.multiplyScalar(shipSize + Math.random() * shipSize));
+            p2.add(N.multiplyScalar(-2/3));
+            p2.add(U.multiplyScalar(3 * (shipSize + Math.random() * shipSize)));
+            p2.add(V.multiplyScalar(3 * (shipSize + Math.random() * shipSize)));
             U.normalize();
             V.normalize();
-            N.multiplyScalar(3);
+            N.multiplyScalar(-3/2);
         }
 
-        var curve = new THREE.SplineCurve3([
-            this.position,
+        var curve = new THREE.CatmullRomCurve3([
+            this.position.clone(),
             p1,
             p2,
-            ship.position]);
+            ship.position.clone()]);
 
         var curveLength = this.position.distanceTo(p1);
         curveLength += p1.distanceTo(p2);
         curveLength += p2.distanceTo(ship.position);
 
-        this.points = curve.getPoints(Math.round(20 * this.speed / (delta * curveLength)));
+        this.points = curve.getPoints(2 + Math.round(curveLength / (this.speed * delta)));
         //console.log(this.points.length);
-        //this.points.shift();
+
+        // "schon abgelaufene" Punkte sowie einen mehr loeschen
+        // betrachte Skalarprodukt von this.position -> {this.points.shift() und den davor}
+        // Falls < 0 abbrechen
+        // test1 = this.points.shift();
+        // test1.sub(this.position);
+        // do {
+        //     test0 = test1.clone();
+        //     test1 = this.points.shift();
+        //     test1.sub(this.position);
+        //     console.log(this.points.length);
+        // } while(MATH.dot(test0, test1) <= 0);
+        this.points.shift();
     }
 
     // Punkte abarbeiten mit points.shift();
@@ -361,7 +381,7 @@ Enemy.prototype.collectObstacles = function(optimalDir, delta) {
             possibleObstacle = true;
             distanceToShip = asteroid.position.distanceTo(shipPosition);
             if(distanceToShip <= minObstacleDistance) { // nahe an this
-                obstacles.push(asteroid.getObstacleHitBox());
+                obstacles.push(asteroid);
             }
         } else if(possibleObstacle && d > minObstacleDistance) {
             possibleObstacle = false;
@@ -375,7 +395,7 @@ Enemy.prototype.collectObstacles = function(optimalDir, delta) {
         if(d <= 0 && d <= minObstacleDistance) { // nahe und vor einem
             distanceToShip = enemy.position.distanceTo(shipPosition);
             if(distanceToShip <= minObstacleDistance && enemy!=this) { // nahe an this
-                obstacles.push(enemy.getObstacleHitBox());
+                obstacles.push(enemy);
             }
         } else if(possibleObstacle && d > minObstacleDistance) {
             // nach Sortierung wieder zu weit entfernt oder hinter enemy
@@ -390,37 +410,64 @@ Enemy.prototype.collectObstacles = function(optimalDir, delta) {
 // Ueberprueft die Richtung auf Hindernisse
 // @return #Hindernisse
 Enemy.prototype.checkDirection = function(direction, objects) {
-    var raycaster =
-        new THREE.Raycaster(this.position, direction, 0,
-            minObstacleDistance - this.speed * this.delta);
-    var rayObstacles = raycaster.intersectObjects(objects);
+    // siehe Zettel 4
 
-    return rayObstacles.length;
+    var count = 0;
+
+    for(obj of objects) {
+        // Berechne t (Minimierer des Abstands)
+        var t = MATH.clone(obj.position);
+        t.sub(this.position);
+        t.dot(direction);
+        t.divideScalar(direction.lengthSq());
+
+        // Berechne Minimum
+        direction.multiplyScalar(t);
+        direction.add(this.position);
+
+        // Wie nahe dran
+        if(direction.distanceTo(obj.position) < 1.2 * obj.radius) {
+            count += 1;
+        }
+    }
+
+    return count;
 }
 
 
-Enemy.prototype.shoot = function(aimPosition) {
-    var projectileSpeed = 100;
-    // Schießt von position mit weapon in direction
+Enemy.prototype.shoot = function(aimPos, delta) {
+    var aimPosition = aimPos.clone();
+    var geometry = new THREE.SphereGeometry(3 * shootAccuracy, 32, 32);
+    var material = new THREE.MeshBasicMaterial({color: 0xffffff});
 
-    if(this.position.distanceTo(aimPosition) < shootDistance) {
-       	// TODO: Je naeher desto haeufiger
+    var aimSphere = new THREE.Mesh(geometry, material);
+    aimSphere.position.set(aimPosition.x,aimPosition.y,aimPosition.z);
 
-	    var distanceEnemyPlayer = this.position.distanceTo(ship.position);
-	    distanceEnemyPlayer = distanceEnemyPlayer / projectileSpeed;
+    var raycaster = new THREE.Raycaster(this.position,this.direction,0,maxShootDistance);
+    var intersects = raycaster.intersectObjects([aimSphere]);
 
-	    var futurePosition = MATH.clone(ship.position);
-	    this.playerDirection.multiplyScalar(distanceEnemyPlayer);
-	    futurePosition.add(this.playerDirection);
-	    this.playerDirection.normalize();
+    if(intersects.length > 0) {
+        // Ueberpruefe, ob geschossen werden darf
+        this.sinceLastShot += delta;
+        if(this.sinceLastShot >= 0.3){
+            this.sinceLastShot = 0;
+            // schiesse
+            enemyShootLaser(this.position, 
+                aimPosition.add(new THREE.Vector3(shootAccuracy * Math.random(),
+                    shootAccuracy * Math.random(),shootAccuracy * Math.random())));
+            
+            // Falls Level >= 5 predicten
+            if(aimPos==ship.position && this.level >= 5) {
+                var projectileSpeed = 100;
 
-	    var error = new THREE.Vector3(Math.random(),Math.random(),Math.random());
-	    error.multiplyScalar(shootAccuracy);
+                var distanceEnemyPlayer = this.position.distanceTo(ship.position);
+                distanceEnemyPlayer = distanceEnemyPlayer / projectileSpeed;
 
-	    futurePosition.add(error);
-
-	    // TODO: Shoot von Weapon aufrufen von this.position nach futurePosition
-
+                this.playerDirection.multiplyScalar(distanceEnemyPlayer);
+                aimPosition.add(this.playerDirection);
+                this.playerDirection.normalize();
+            }
+        }
     }
 }
 
@@ -444,20 +491,35 @@ Enemy.prototype.avoidObstacle = function(optimalDir, obstacles, delta) {
         //  Normale zum Schnittpunkt mit Hindernis
 
         // TODO: weiche aus in Richtung der Normalen des Schnittpunkts (neue berechnen, s. Zettel heute morgen)
+        dir = MATH.clone(optimalDir);
 
-        avoidDir = new THREE.Vector3(
-             this.position.x - obstacles[0].position.x,
-             this.position.y - obstacles[0].position.y ,
-             this.position.z - obstacles[0].position.z);
+        // Berechne t (Minimierer des Abstands)
+        var t = MATH.clone(obstacle.position);
+        t.sub(this.position);
+        t.dot(dir);
+        t.divideScalar(dir.lengthSq());
+
+        // Berechne Minimum
+        dir.multiplyScalar(t);
+        dir.add(this.position);
+
+        // Falls getroffen
+        if(dir.distanceTo(obstacle.position) < obstacle.radius) {
+            avoidDir = dir;
+            avoidDir.sub(obstacle.position);
+        } else {
+            // Falls nicht in Richtung
+            avoidDir = new THREE.Vector3(
+                 this.position.x - obstacles[0].position.x,
+                 this.position.y - obstacles[0].position.y ,
+                 this.position.z - obstacles[0].position.z);
             avoidDir.normalize();
-
-
-
+        }
 
     } else {  // im >15° Winkel auf einen zufliegend
         // sonst, weiche aus bzw. zerschiesse Asteroid wie aufs Zettel 1
         // U,V nehmen -> orthogonal verschieben und schiesse zuvor
-        this.shoot(ship.position);
+        this.shoot(ship.position, delta);
 
         // weiche orthogonal aus
         if(this.checkDirection(U, obstacle) == 0) {
@@ -727,16 +789,16 @@ Enemy.prototype.searchDirectionAtEdge = function(optimalDir, obstacles, delta) {
 
         switch(j) {
             case 0:
-                dir = direction.add(U).add(V);
+                dir = dir.add(U).add(V);
                 break;
             case 1:
-                dir = direction.add(U).sub(V);
+                dir = dir.add(U).sub(V);
                 break;
             case 2:
-                dir = direction.sub(U).add(V);
+                dir = dir.sub(U).add(V);
                 break;
             case 3:
-                dir = direction.sub(U).sub(V);
+                dir = dir.sub(U).sub(V);
                 break;
             default: console.log("Error @searchDirectionAtEdge: j /€ {0..3}");
         }
@@ -798,12 +860,12 @@ Enemy.prototype.searchDirectionOrthogonal = function(optimalDir, obstacles) {
     if(directionFound) {
         return dir;
     } else {
-        return this.handleNoDirection();
+        return this.handleNoDirection(delta);
     }
 }
 
 // Falls eingekesselt, mache dies
-Enemy.prototype.handleNoDirection = function() {
+Enemy.prototype.handleNoDirection = function(delta) {
     var aim = MATH.clone(this.position);
     var shootDir = MATH.clone(this.direction);
     shootDir.normalize();
@@ -891,8 +953,26 @@ Enemy.prototype.getHitBoxes = function() {
     var mesh, geometry1, geometry2, material;
 
     // TODO: (besser) spezifizieren
-    geometry1 = new THREE.BoxGeometry(9, 4, 4);
-    geometry2 = new THREE.BoxGeometry(4, 3, 15);
+    // nur Naeherung
+    switch(this.typ) {
+        case "BOSS1":
+            geometry1 = new THREE.BoxGeometry(10, 6, 15);
+            geometry2 = new THREE.BoxGeometry(8, 4, 25);
+            break;
+        case "BOSS2":
+            geometry1 = new THREE.BoxGeometry(4, 20, 4);
+            geometry2 = new THREE.BoxGeometry(4, 20, 4);
+            break;
+        case "SMALL1":
+            geometry1 = new THREE.BoxGeometry(9, 4, 4);
+            geometry2 = new THREE.BoxGeometry(4, 3, 15);
+            break;
+        case "SMALL2":
+            geometry1 = new THREE.BoxGeometry(6,3,4);
+            geometry2 = new THREE.BoxGeometry(6,3,4);
+            break;
+        default:
+    }
 
     material = new THREE.MeshBasicMaterial({
         transparent : true,
@@ -902,8 +982,8 @@ Enemy.prototype.getHitBoxes = function() {
 
     mesh1 = new THREE.Mesh(geometry1, material);
     mesh2 = new THREE.Mesh(geometry2, material);
-    scene.add(mesh1);
-    scene.add(mesh2);
+    //scene.add(mesh1);
+    //scene.add(mesh2);
     //mesh.position.set(this.position);
 
     hitBoxes.push(mesh1);
@@ -913,7 +993,7 @@ Enemy.prototype.getHitBoxes = function() {
 }
 
 // TODO: spezifizieren
-Enemy.prototype.collide = function(other, type) {
+Enemy.prototype.collide = function(type, index, otherIndex) {
     switch(type) {
         case "ASTEROID": case "asteroid": case "Asteroid":
 
@@ -925,10 +1005,10 @@ Enemy.prototype.collide = function(other, type) {
 
             break;
         case "LASER": case "laser": case "Laser":
-            this.HP -= laserDamage;
+            enemyHP[this.index] -= laserDamage;
             break;
         case "ROCKET": case "rocket": case "Rocket":
-            this.HP -= rocketDamage;
+            enemyHP[this.index] -= rocketDamage;
             break;
         case "EXPLOSION": case "explosion": case "Explosion":
 
@@ -939,7 +1019,7 @@ Enemy.prototype.collide = function(other, type) {
         default: console.log("Error: Collision with unknown");
     }
 
-    if(this.HP <= 0) {
+    if(enemyHP[this.index] <= 0) {
         this.isAlive = false;
     }
 }

@@ -2,7 +2,6 @@ function ShockwaveParticleRenderer(particleColor, nParticles, particleTexture, l
 
     this.startVector = startVector;
     this.particleCount = nParticles;
-
     this.running = true;
     this.clock = new THREE.Clock();
     this.clock.start();

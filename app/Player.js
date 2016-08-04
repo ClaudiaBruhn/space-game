@@ -51,24 +51,28 @@ function Player() {
                     console.log("CenterWing");
                     if (yAxis < 0 && yAxis >= -6) {
 
-                        changeHP(-10);
+
 
                     } else if (yAxis < -6) {
 
                             //Schleudere nach hinten
                             var interval = setInterval(function () {
 
-                                lat -= 20;
+                                lat -= 100;
                                 yAxis = 5;
                                 setSpeed(yAxis);
-                                rotCount += 1;
+                                rotCount += 2;
+                               
+
+
                                 if (rotCount > 10) {
 
                                     clearInterval(interval);
                                 }
 
 
-                            }, 200);
+
+                            }, 100);
 
                             changeHP(-10);
 
@@ -81,7 +85,8 @@ function Player() {
                     console.log("LinkerWing");
                     if (yAxis < 0 && yAxis >= -6) {
 
-                        changeHP(-10);
+                        changeHP(-1);
+
 
 
                     } else if (yAxis < -6 && yAxis >= -14) {
@@ -90,29 +95,32 @@ function Player() {
 
 
 
+
                         var interval = setInterval(function () {
 
-                            lon += 20;
+                            lon += 100;
                             yAxis = -1;
                             setSpeed(yAxis);
-                            rotCount += 1;
+                            rotCount += 2;
                             if (rotCount > 10) {
 
                                 clearInterval(interval);
                             }
 
-                        }, 200);
+                        }, 100);
 
-                        changeHP(-10);
+                        changeHP(-1);
 
                     }
                     break;
+
 
                     //rightWing
                     case 2:
                     console.log("RechterWing");
                     if (yAxis < 0 && yAxis >= -6) {
 
+
                         changeHP(-10);
 
                     } else if (yAxis < -6 && yAxis >= -14) {
@@ -121,17 +129,17 @@ function Player() {
 
                         var interval = setInterval(function () {
 
-                            lon -= 20;
+                            lon -= 100;
                             yAxis = -1;
                             setSpeed(yAxis);
-                            rotCount += 1;
+                            rotCount += 2;
                             if (rotCount > 10) {
 
                                 clearInterval(interval);
                             }
 
 
-                        }, 200);
+                        }, 100);
 
                         changeHP(-10);
 
@@ -292,6 +300,7 @@ function Player() {
             if(barrelRoll == true) {
 
                 ship.skeleton.bones[0].rotation.z += 0.2;
+
 
 
                 for (var i = 0; i < ship.skeleton.bones.length; i++) {
