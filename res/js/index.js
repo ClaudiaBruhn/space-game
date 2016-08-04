@@ -150,7 +150,7 @@ $(function () {
         // Background Music
         backgroundMusic = document.createElement('audio');
         var backgroundMusicSource = document.createElement('source');
-        backgroundMusicSource.src = '../res/sounds/soundtrack.mp3';
+        backgroundMusicSource.src = '../res/sounds/soundtrackMenu.mp3';
         backgroundMusic.appendChild(backgroundMusicSource);
         backgroundMusic.play();
 

@@ -8,6 +8,7 @@
 
     <link rel="stylesheet" href="../res/css/game.css" />
     <link rel="stylesheet" href="../res/css/gui.css" />
+	<link rel="stylesheet" href="../res/css/index.css" />
 
 </head>
 
@@ -27,7 +28,7 @@
 
     <div id="menu-overlay" hidden>
         <div id="menu-box" class="outerScrollbar">
-            <div id="menuLeft">
+            <div id="menuLeft" class="invertedInnerScrollbar">
         		<div id="menuButtons">            		
             		<div id="shopBox" class="pauseButton" onmouseover="buttonHover()" onClick="showShop()"> Shop </div>
 					<div id="highscoreBox" class="pauseButton" onmouseover="buttonHover()" onClick="showHighscore()"> Highscore </div>
@@ -51,9 +52,9 @@
                             </td>
 							
                             <td>
-                                <div id="shopItemDesc">
-                                	<div> Increases your maximum HP by 10</div>
-                                	<div id="costSign" class="costUpgrade" >€</div>
+                                <div class="shopItemDesc">
+                                	<div>Increases your maximum HP by 10</div>
+                                	<div id="costSign" class="costUpgrade">€</div>
                              		<div id="costUpgrade0" class="costUpgrade">0</div>
                                 </div>
                             </td>
@@ -65,11 +66,11 @@
                             </td>
 							
                             <td>
-                                <div id="shopItemDesc" >
+                                <div class="shopItemDesc" >
                                 	<div>Slowly recharge your HP</div>
                                 	<div id="costSign" class="costUpgrade">€</div>
                              		<div id="costUpgrade1" class="costUpgrade">0</div>
-                                <div>
+                                </div>
                             </td>
                         </tr>
 						
@@ -79,69 +80,113 @@
                             </td>
 							
                             <td>
-                                <div id="shopItemDesc" >
+                                <div class="shopItemDesc" >
                                 	<div>Increases your Shield by 10</div>
                                 	<div id="costSign" class="costUpgrade">€</div>
                              		<div id="costUpgrade2" class="costUpgrade">0</div>
-                                <div>
+                                </div>
                             </td>
                         </tr>
 						
 						<tr id="shopItem3">
                             <td class="shopTableTd1">
-                                <img class="shopItemPic" src="../res/textures/ShipSpeed.png" onClick="buyUpgrade(3)">
+                                <img class="shopItemPic" src="../res/textures/ShipSpeedNotTr.png" onClick="buyUpgrade(3)">
                             </td>
 							
                             <td>
-                                <div id="shopItemDesc" >
+                                <div class="shopItemDesc" >
                                 	<div> Increases the maximum flight speed by ~40 </div>
                                 	<div id="costSign" class="costUpgrade">€</div>
                              		<div id="costUpgrade3" class="costUpgrade">0</div>
-                                <div>
+                                </div>
                             </td>
                         </tr>
 
                         <tr id="shopItem4">
                             <td class="shopTableTd1">
-                                <img class="shopItemPic" src="../res/textures/Icon_Rocket.png" onClick="buyUpgrade(4)">
+                                <img class="shopItemPic" src="../res/textures/IconRocketDamage.png" onClick="buyUpgrade(4)">
                             </td>
 							
                             <td>
-                                <div id="shopItemDesc" >
+                                <div class="shopItemDesc" >
                                 	<div>Increases your maximum rocket ammo by 2</div>
                                 	<div id="costSign" class="costUpgrade">€</div>
                              		<div id="costUpgrade4" class="costUpgrade">0</div>
-                                <div>
+                                </div>
                             </td>
                         </tr>
 						
-                         <tr id="shopItem5">
+						<tr id="shopItem5">
                             <td class="shopTableTd1">
-                                <img class="shopItemPic" src="../res/textures/GUIspeedShopItem.png" onClick="buyUpgrade(5)">
+                                <img class="shopItemPic" src="../res/textures/Icon_RocketDamage.png" onClick="buyUpgrade(5)">
                             </td>
 							
                             <td>
-                                <div id="shopItemDesc" >
-                                	<div>Increases your maximum minigun ammo by 20</div>
+                                <div class="shopItemDesc" >
+                                	<div>Increase rocket damage by 1</div>
                                 	<div id="costSign" class="costUpgrade">€</div>
                              		<div id="costUpgrade5" class="costUpgrade">0</div>
-                                <div>
-                            </td>
-                        </tr>
-                         
-						<tr id="shopItem6">
-                            <td class="shopTableTd1">
-                                <img class="shopItemPic" src="../res/textures/GUIspeedShopItem.png" onClick="buyUpgrade(6)">
-                            </td>
-							
-                            <td>
-                                <div id="shopItemDesc" >
-                                	<div>Increase Rocket Damage by 1</div>
-                                	<div id="costSign" class="costUpgrade">€</div>
-                             		<div id="costUpgrade6" class="costUpgrade">0</div>
 								</div>
 							</td>
 						</tr>
+						
+                         <tr id="shopItem6">
+                            <td class="shopTableTd1">
+                                <img class="shopItemPic" src="../res/textures/IconMinigunAmmoMax.png" onClick="buyUpgrade(6)">
+                            </td>
+							
+                            <td>
+                                <div class="shopItemDesc" >
+                                	<div>Increases your maximum minigun ammo by 20</div>
+                                	<div id="costSign" class="costUpgrade">€</div>
+                             		<div id="costUpgrade6" class="costUpgrade">0</div>
+                                </div>
+                            </td>
+                        </tr>
+						
+						<tr id="shopItem7">
+                            <td class="shopTableTd1">
+                                <img class="shopItemPic" src="../res/textures/GUIspeedShopItem.png" onClick="buyUpgrade(7)">
+                            </td>
+							
+                            <td>
+                                <div class="shopItemDesc" >
+                                	<div>Increase your minigun damage by 1</div>
+                                	<div id="costSign" class="costUpgrade">€</div>
+                             		<div id="costUpgrade7" class="costUpgrade">0</div>
+                                </div>
+                            </td>
+                        </tr>
+						
+						<tr id="shopItem8">
+                            <td class="shopTableTd1">
+                                <img class="shopItemPic" src="../res/textures/Icon_Shockwave.png" onClick="buyUpgrade(8)">
+                            </td>
+							
+                            <td>
+                                <div class="shopItemDesc" >
+                                	<div>Increases your maximum shockwave ammo by 5</div>
+                                	<div id="costSign" class="costUpgrade">€</div>
+                             		<div id="costUpgrade8" class="costUpgrade">0</div>
+                                </div>
+                            </td>
+                        </tr>
+						
+						<tr id="shopItem9">
+                            <td class="shopTableTd1">
+                                <img class="shopItemPic" src="../res/textures/Icon_ShockwaveDamageUpgrade.png" onClick="buyUpgrade(9)">
+                            </td>
+							
+                            <td>
+                                <div class="shopItemDesc" >
+                                	<div>Increase your shockwave damage by 2</div>
+                                	<div id="costSign" class="costUpgrade">€</div>
+                             		<div id="costUpgrade9" class="costUpgrade">0</div>
+                                </div>
+                            </td>
+                        </tr>
+                         
+					
                     </table>
                 </div>
 
@@ -149,32 +194,18 @@
 				
 				
 				<!-- Highscore -->
-
-                <div id="highscore" hidden>
-					<div id="headingHighscore"> Highscore </div>
-					<table id="menu-highscore-table" >
-						<thead>
-							<tr>
-								<th class="menu-highscore-table-nr">#</th>
-								<th>Player</th>
-								<th class="menu-highscore-table-points">Points</th>
-							</tr>
-						</thead>
-						
-						<tbody>
-							<tr><th class="menu-highscore-table-nr">1</th><th class="menu-highscore-table-player">JP</th><th class="menu-highscore-table-points">100</th></tr>
-							<tr><th class="menu-highscore-table-nr">2</th><th class="menu-highscore-table-player">irgendwer</th><th class="menu-highscore-table-points">100</th></tr>
-							<tr><th class="menu-highscore-table-nr">3</th><th class="menu-highscore-table-player">jemand</th><th class="menu-highscore-table-points">100</th></tr>
-							<tr><th class="menu-highscore-table-nr">4</th><th class="menu-highscore-table-player">eine Person</th><th class="menu-highscore-table-points">100</th></tr>
-							<tr><th class="menu-highscore-table-nr">5</th><th class="menu-highscore-table-player">ein Mensch</th><th class="menu-highscore-table-points">100</th></tr>
-							<tr><th class="menu-highscore-table-nr">6</th><th class="menu-highscore-table-player">irgendwer</th><th class="menu-highscore-table-points">100</th></tr>
-							<tr><th class="menu-highscore-table-nr">7</th><th class="menu-highscore-table-player">jemand</th><th class="menu-highscore-table-points">100</th></tr>
-							<tr><th class="menu-highscore-table-nr">8</th><th class="menu-highscore-table-player">eine Person</th><th class="menu-highscore-table-points">100</th></tr>
-							<tr><th class="menu-highscore-table-nr">9</th><th class="menu-highscore-table-player">niemand</th><th class="menu-highscore-table-points">100</th></tr>
-							<tr><th class="menu-highscore-table-nr">10</th><th class="menu-highscore-table-player">irgendwer</th><th class="menu-highscore-table-points">100</th></tr>
-						</tbody>
+					
+				<div id="highscore" hidden>
+				
+					<div id="headingHighscore">Highscore</div>
+					<table id="menuHighscore">
+						<tr id="menuHighscoreHead">
+							<td class="col-md-2" >#</td>
+							<td class="col-md-3">Player</td>
+							<td class="col-md-4">Points</td>
+						</tr>
 					</table>
-                </div>
+				</div>
 				
 				<!-- End of Highscore -->
 				
@@ -552,13 +583,18 @@
 								</tr>
 								
 								<tr>
-									<td>Hide Scrollbar</td>
-									<td><input type="checkbox" id="hideScrollbar" onchange="hideScrollbar();" checked></td>
+									<td>Hide Scrollbars</td>
+									<td><input type="checkbox" id="hideScrollbars" onchange="hideScrollbars();" checked></td>
 								</tr>
 								
 								<tr>
 									<td>Inverted Shieldbar</td>
-									<td><input type="checkbox" id="invertedShieldbar" onchange="invertShieldBar();" checked></td>
+									<td><input type="checkbox" id="invertedShieldBar" onchange="invertShieldBar();"></td>
+								</tr>
+								
+								<tr>
+									<td>Show FPS</td>
+									<td><input type="checkbox" id="showFPS" onchange="showFPS();" checked></td>
 								</tr>
 							</table>
 						</div>
@@ -571,7 +607,7 @@
                                 <tr>
                                     <td> Volume: </td>
                                     <td> 
-                                        <input type="range" min="0" max="1" step="0.01" value="1"onchange="changeVolume(1, this.value)"/>
+                                        <input type="range" min="0" max="1" step="0.01" id = "volumeBar" value="1" onchange="changeVolume(1, this.value)"/>
                                     </td>
                                     <td> <span id="soundValue1"> 100% </span>  </td>
                                     <!--
@@ -619,22 +655,22 @@
 						<div id="optionsHeader">--- Crosshair Options ---</div>
 						<div id="crossOptions">
 							<div id="crossContainer">
-								<img class="crossPic" id="crossPic0" src="../res/textures/Crosshair1.png" onClick="switchCross(0)">
-								<img class="crossPic" id="crossPic1" src="../res/textures/Crosshair2.png" onClick="switchCross(1)">
-								<img class="crossPic" id="crossPic2" src="../res/textures/Crosshair3.png" onClick="switchCross(2)">
-								<img class="crossPic" id="crossPic3" src="../res/textures/Crosshair4.png" onClick="switchCross(3)">
-								<img class="crossPic" id="crossPic4" src="../res/textures/Crosshair5.png" onClick="switchCross(4)">
-								<img class="crossPic" id="crossPic5" src="../res/textures/Crosshair6.png" onClick="switchCross(5)">
-								<img class="crossPic" id="crossPic6" src="../res/textures/Crosshair7.png" onClick="switchCross(6)">
-								<img class="crossPic" id="crossPic7" src="../res/textures/Crosshair8.png" onClick="switchCross(7)">
-								<img class="crossPic" id="crossPic8" src="../res/textures/Crosshair9.png" onClick="switchCross(8)">
-								<img class="crossPic" id="crossPic9" src="../res/textures/Crosshair10.png" onClick="switchCross(9)">
-								<img class="crossPic" id="crossPic10" src="../res/textures/Crosshair11.png" onClick="switchCross(10)">
-								<img class="crossPic" id="crossPic11" src="../res/textures/Crosshair12.png" onClick="switchCross(11)">
-								<img class="crossPic" id="crossPic12" src="../res/textures/Crosshair13.png" onClick="switchCross(12)">
-								<img class="crossPic" id="crossPic13" src="../res/textures/Crosshair14.png" onClick="switchCross(13)">
-								<img class="crossPic" id="crossPic14" src="../res/textures/Crosshair15.png" onClick="switchCross(14)">
-								<img class="crossPic" id="crossPic15" src="../res/textures/Crosshair16.png" onClick="switchCross(15)">
+								<img class="crossPic" id="crossPic0" onmouseover="buttonHover()" src="../res/textures/Crosshair1.png" onClick="switchCross(0)">
+								<img class="crossPic" id="crossPic1" onmouseover="buttonHover()" src="../res/textures/Crosshair2.png" onClick="switchCross(1)">
+								<img class="crossPic" id="crossPic2" onmouseover="buttonHover()" src="../res/textures/Crosshair3.png" onClick="switchCross(2)">
+								<img class="crossPic" id="crossPic3" onmouseover="buttonHover()" src="../res/textures/Crosshair4.png" onClick="switchCross(3)">
+								<img class="crossPic" id="crossPic4" onmouseover="buttonHover()" src="../res/textures/Crosshair5.png" onClick="switchCross(4)">
+								<img class="crossPic" id="crossPic5" onmouseover="buttonHover()" src="../res/textures/Crosshair6.png" onClick="switchCross(5)">
+								<img class="crossPic" id="crossPic6" onmouseover="buttonHover()" src="../res/textures/Crosshair7.png" onClick="switchCross(6)">
+								<img class="crossPic" id="crossPic7" onmouseover="buttonHover()" src="../res/textures/Crosshair8.png" onClick="switchCross(7)">
+								<img class="crossPic" id="crossPic8" onmouseover="buttonHover()" src="../res/textures/Crosshair9.png" onClick="switchCross(8)">
+								<img class="crossPic" id="crossPic9" onmouseover="buttonHover()" src="../res/textures/Crosshair10.png" onClick="switchCross(9)">
+								<img class="crossPic" id="crossPic10" onmouseover="buttonHover()" src="../res/textures/Crosshair11.png" onClick="switchCross(10)">
+								<img class="crossPic" id="crossPic11" onmouseover="buttonHover()" src="../res/textures/Crosshair12.png" onClick="switchCross(11)">
+								<img class="crossPic" id="crossPic12" onmouseover="buttonHover()" src="../res/textures/Crosshair13.png" onClick="switchCross(12)">
+								<img class="crossPic" id="crossPic13" onmouseover="buttonHover()" src="../res/textures/Crosshair14.png" onClick="switchCross(13)">
+								<img class="crossPic" id="crossPic14" onmouseover="buttonHover()" src="../res/textures/Crosshair15.png" onClick="switchCross(14)">
+								<img class="crossPic" id="crossPic15" onmouseover="buttonHover()" src="../res/textures/Crosshair16.png" onClick="switchCross(15)">
 							</div>
 						</div>
 					</div>
@@ -664,8 +700,10 @@
     </div>
 
     <div id ="ammoBox">
-        <img src="../res/textures/RocketInterfaceSymbol.png" class="ammopic" id="rocketPic" /> 
-		<img src="../res/textures/MinigunInterfaceSymbol.png" class="ammopic" id="mgPic" /> 
+        <img src="../res/textures/RocketInterfaceSymbol.png" class="ammopic" id="rocketPic" hidden /> 
+		<img src="../res/textures/MinigunInterfaceSymbol.png" class="ammopic" id="migPic" hidden /> 
+		<img src="../res/textures/ShockwaveInterfaceSymbol.png" class="ammopic" id="wavePic" hidden /> 
+		<img src="../res/textures/GuidedRocketInterfaceSymbol.png" class="ammopic" id="guidedRocketPic" hidden /> 
         <div id="currentAmmo">60</div>
         <div id="ammoDivider">/</div>
         <div id="maxAmmo">999</div>
@@ -732,7 +770,7 @@
             <span style="font-size:40px">Pause</span>
             <br>
             <br>
-            <span style="font-size:20px">WASD: Speed - Left - Right | V: Change Crosshair | C: Change Camera | X: Stop Movment | P: Pause</span>
+            <span style="font-size:20px">WASD: Speed - Left - Right | C: Change Camera | X: Stop Movment | P: Pause/Shop | Q: Change Weapon</span>
             <br>
             <br>
             <span style="font-size:30px">Click to Start / Resume</span>
@@ -754,44 +792,45 @@
 	
 
    <!-- Libraries -->
-                    <script src="../res/js/lib/jquery-3.0.0.min.js"></script>
-                    <script src="../res/js/lib/threejs/three.js"></script>
-                    <script src="../res/js/lib/TargetCamera.js"></script>
-                    <script src="../res/js/lib/stats.min.js"></script>
-                    <script src="../res/js/lib/threejs/CopyShader.js"></script>
-                    <script src="../res/js/lib/threejs/DigitalGlitch.js"></script>
+   
+	<script src="../res/js/lib/jquery-3.0.0.min.js"></script>
+	<script src="../res/js/lib/threejs/three.js"></script>
+	<script src="../res/js/lib/TargetCamera.js"></script>
+	<script src="../res/js/lib/stats.min.js"></script>
+	<script src="../res/js/lib/threejs/CopyShader.js"></script>
+	<script src="../res/js/lib/threejs/DigitalGlitch.js"></script>
 
-                    <script src="../res/js/lib/threejs/EffectComposer.js"></script>
-                    <script src="../res/js/lib/threejs/RenderPass.js"></script>
-                    <script src="../res/js/lib/threejs/MaskPass.js"></script>
-                    <script src="../res/js/lib/threejs/ShaderPass.js"></script>
-                    <script src="../res/js/lib/threejs/GlitchPass.js"></script>
+	<script src="../res/js/lib/threejs/EffectComposer.js"></script>
+	<script src="../res/js/lib/threejs/RenderPass.js"></script>
+	<script src="../res/js/lib/threejs/MaskPass.js"></script>
+	<script src="../res/js/lib/threejs/ShaderPass.js"></script>
+	<script src="../res/js/lib/threejs/GlitchPass.js"></script>
 
-                    <!-- custom -->
-                    <script src="Network.js"></script>
-                    <script src="StarfieldParticleRenderer.js"></script>
-                    <script src="ShockwaveParticleRenderer.js"></script>
-                    <script src="FileLoader.js"></script>
-                    <script src="RayParticleRenderer.js"></script>
-                    <script src="HaloParticleRenderer.js"></script>
-                    <script src="ImplosionParticleRenderer.js"></script>
-                    <script src="ExplosionParticleRenderer.js"></script>
-                    <script src="ParticleHandler.js"></script>
-                    <script src="Camera.js"></script>
-                    <script src="Interface.js"></script>
-                    <script src="Player.js"></script>
-                    <script src="Crosshairs.js"></script>
-                    <script src="World.js"></script>
-                    <script src="Movement.js"></script>
-                    <script src="Collision.js"></script>
-                    <script src="CollisionHandling.js"></script>
-                    <script src="Weapon.js"></script>
-                    <script src="Items.js"></script>
-                    <script src="core.js"></script>
-                    <script src="Bot.js"></script>
-                    <script src="Asteroid.js"></script>
-                    <script src="Enemy.js"></script>
-                    <script src="MATHX.js"></script>
+	<!-- custom -->
+	<script src="Network.js"></script>
+	<script src="StarfieldParticleRenderer.js"></script>
+	<script src="ShockwaveParticleRenderer.js"></script>
+	<script src="FileLoader.js"></script>
+	<script src="RayParticleRenderer.js"></script>
+	<script src="HaloParticleRenderer.js"></script>
+	<script src="ImplosionParticleRenderer.js"></script>
+	<script src="ExplosionParticleRenderer.js"></script>
+	<script src="ParticleHandler.js"></script>
+	<script src="Camera.js"></script>
+	<script src="Interface.js"></script>
+	<script src="Player.js"></script>
+	<script src="Crosshairs.js"></script>
+	<script src="World.js"></script>
+	<script src="Movement.js"></script>
+	<script src="Collision.js"></script>
+	<script src="CollisionHandling.js"></script>
+	<script src="Weapon.js"></script>
+	<script src="Items.js"></script>
+	<script src="core.js"></script>
+	<script src="Bot.js"></script>
+	<script src="Asteroid.js"></script>
+	<script src="Enemy.js"></script>
+	<script src="MATHX.js"></script>
 	
 </body>
 

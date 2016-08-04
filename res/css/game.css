@@ -110,13 +110,14 @@ canvas {
 
 /* Left half */
 #menuLeft {
-	top: 50%;
+	height: 100%;
     display: inline-block;
     width: 50%;
     position: absolute;
 }
 
 #menuButtons {
+	top: 50%;
 	width: 100%;
 	position: absolute;
 	-webkit-transform: translateY(-50%);
@@ -169,6 +170,13 @@ canvas {
 	overflow-x: hidden;
 }
 
+.invertedInnerScrollbar {
+	direction: rtl;
+	margin-left: -16px;
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
+
 /**
  * End of menu main screen
  */
@@ -216,7 +224,7 @@ canvas {
 }
 
 
-#shopItemDesc {
+.shopItemDesc {
 	margin-left: auto;
     margin-right: auto;
     color: white;
@@ -249,6 +257,24 @@ canvas {
  * Start of highscore
  */
 
+ #menuHighscore {
+    font-size: 15px;
+    font-family: Avant Garde, Avantgarde, Century Gothic, CenturyGothic, AppleGothic, sans-serif;
+    width: 100%;
+    height: 100%;
+    padding: 6px;
+    border: 2px solid transparent;
+    top: 50px;
+    overflow-y: scroll;
+}
+ #menuHighscore .row{
+	font-size: 12px;
+    margin: auto;
+    padding: 0;
+    width: 100%;
+    text-align: left;
+ }
+ 
 #headingHighscore {
 	font-size: 20px;
 	text-align: center;
@@ -259,47 +285,44 @@ canvas {
 	text-shadow: 1px 1px rgba(255, 255, 255, 0.2);
 }
 
-#menu-highscore-table {
-    font-size: 15px;
-    font-family: Avant Garde, Avantgarde, Century Gothic, CenturyGothic, AppleGothic, sans-serif;
-    width: 100%;
-    height: 100%;
-    padding: 6px;
-    border: 2px solid transparent;
-    top: 50px;
-    overflow: scroll;
-}
-
-#menu-highscore-table thead {
+#menuHighscoreHead{
+	text-align: left;
+	font-size: 16px;
+	width: 100%;
 	border: 2px solid transparent;
 	height: 32px;
 	font-style: italic;
 }
 
-#menu-highscore-table td, th {
-    box-shadow: 4px 3px 71px -11px rgba(255, 255, 255, 0.8);
-    text-shadow: 1px 1px rgba(255, 255, 255, 0.2);
-}
-
-#menu-highscore-table th {
-    font-weight: bolder;
-}
-
-#menu-highscore-table tr {
-	border: 2px solid rgba(255, 255, 230, 0.3);
-}
-
 .menu-highscore-table-nr {
-    width: 10%;
+	display : inline;
 }
 
 .menu-highscore-table-points {
-    width: 30%;
+	display : inline;
 }
 
 .menu-highscore-table-player {
-    width: 60%;
+	display : inline;
 }
+
+.menuHighscoreBody{
+	width : 100%;
+}
+
+
+.menuHighscoreBody .table-nr{
+	display : inline;
+}
+
+.menuHighscoreBody .player-nr{
+	display : inline;
+}
+
+.menuHighscoreBody .points-nr{
+	display : inline;
+}
+
 
 /**
  * End of highscore

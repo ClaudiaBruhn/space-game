@@ -117,8 +117,6 @@ function init() {
     initializeWeapons();
 
     stats = new Stats();
-    container.appendChild(stats.dom);
-
 
     /********** Camera **********/
 

@@ -8,7 +8,7 @@ var MaxRocketAmmo = 1000;
 var MGAmmo = 600  ;
 var MaxMGAmmo = 600;
 
-var shockwaveAmmo = 0;
+var shockwaveAmmo = 5;
 var maxShockwaveAmmo = 5;
 
 var guidedMissileAmmo = 10;
@@ -19,7 +19,7 @@ var rocketMaxDistance = 1500;
 
 //Weaponcooldown
 var laserReloadTime = 0.4;
-var rocketReloadTime = 0;
+var rocketReloadTime = 0.8;
 var MGReloadTime = 1.2;
 var shockwaveReloadTime = 4;
 var guidedMissileReloadTime = 2;
@@ -28,6 +28,9 @@ var guidedMissileReloadTime = 2;
 var rocketDamage = 50;
 var laserDamage = 2;
 var explosionDamage = 100;
+
+var explosionRadius = 500;
+var shockwaveRadius = 500;
 
 var MGDamage = 1;
 var shockWaveDamage = 5;
@@ -94,10 +97,10 @@ function initializeWeapons() {
 
     rocketGeometry = fileLoader.get("RocketV2");
 
-    explosionGeometry = new THREE.SphereGeometry(600, 32, 32);
+    explosionGeometry = new THREE.SphereGeometry(explosionRadius, 32, 32);
 
     MGGeometry = new THREE.SphereGeometry(0.5, 16, 16);
-    shockGeometry = new THREE.SphereGeometry(500, 32, 32);
+    shockGeometry = new THREE.SphereGeometry(shockwaveRadius, 32, 32);
 
     hitBoxGeometry = new THREE.CylinderGeometry(1, 1, 1000);
 
@@ -249,7 +252,7 @@ function shoot(e) {
 
 function sendShockWave() {
 
-    if (timeSinceShockwave > shockwaveReloadTime) {
+    if (timeSinceShockwave > shockwaveReloadTime && shockwaveAmmo > 0) {
         shockwaveAudio.play();
 
         particleHandler.addShockwave(ship.position, 0xFF11AA);
@@ -467,7 +470,6 @@ function shootGuidedMissile() {
 
         // create guidedMissile
         var guidedMissile = new THREE.Mesh(rocketGeometry, guidedMissileMaterial);
-
         //calculate closest enemy
         var closestDis = 10000;
         var closestEnemy = undefined;
@@ -478,10 +480,18 @@ function shootGuidedMissile() {
                 closestEnemy = enemy;
             }
         }
-        guidedMissile.userData = enemies[closestEnemy];
-
-        //set name for recognition in render-function
-        guidedMissile.name = "GuidedMissile";
+        //If no enemy is in sight, render as rocket
+        if(closestEnemy == undefined){
+            //set name for recognition in render-function
+            guidedMissile.name = "Rocket";
+        }
+        //else as guided missile
+        else{
+            //save closest enemy in userData for rendering
+            guidedMissile.userData = enemies[closestEnemy];
+            //set name for recognition in render-function
+            guidedMissile.name = "GuidedMissile";
+        }
 
         //scaling the guidedMissile
         guidedMissile.scale.x = guidedMissile.scale.y = guidedMissile.scale.z = 10;
@@ -504,7 +514,7 @@ function shootGuidedMissile() {
             var dummyDot = new THREE.Object3D();
             dummyDot.position.z = hitBoxGeometry.parameters.height / numberDummyDots * i;
             dummyDot.name = "BoxPoint" + i;
-            rocket.add(dummyDot);
+            guidedMissile.add(dummyDot);
         }
 
         //add guidedMissile to scene
@@ -666,12 +676,12 @@ function renderWeapons(){
 
 function inRange(rkt, enemy) {
     console.log(enemy);
-    if (rkt.position.x < enemy.position.x + 5
-        && rkt.position.x > enemy.position.x - 5
-        && rkt.position.y < enemy.position.y + 5
-        && rkt.position.y > enemy.position.x - 5
-        && rkt.position.z < enemy.position.z + 5
-        && rkt.position.x > enemy.position.x - 5) {
+    if (rkt.position.x < enemy.position.x + 10
+        && rkt.position.x > enemy.position.x - 10
+        && rkt.position.y < enemy.position.y + 10
+        && rkt.position.y > enemy.position.x - 10
+        && rkt.position.z < enemy.position.z + 10
+        && rkt.position.x > enemy.position.x - 10) {
 
         return true;
     }
